@@ -1,5 +1,5 @@
-import React from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import React, { useState, useEffect } from "react";
+import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from "@react-google-maps/api";
 import { touchGrassMapStyle } from "../mapStyles";
 import bgImage from "../assets/landing-page/bg-image.png";
 
@@ -16,12 +16,35 @@ const backgroundStyles = {
 const Map = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ["geometry"],
+    libraries: ["places"],
   });
+
+  const [directions, setDirections] = useState(null);
 
   // Hardcoded origin and destination
   const origin = { lat: 43.65972, lng: -79.396629 };
   const destination = { lat: 43.6426, lng: -79.3871 };
+
+  // Fetch route from Google Maps Directions API
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin,
+        destination,
+        travelMode: window.google.maps.TravelMode.WALKING,
+      },
+      (result, status) => {
+        if (status === "OK" && result) {
+          setDirections(result);
+        } else {
+          console.error("Error fetching directions", result);
+        }
+      }
+    );
+  }, [isLoaded]);
 
   if (!isLoaded) return <div>Loading map...</div>;
 
@@ -38,10 +61,9 @@ const Map = () => {
               styles: touchGrassMapStyle,
             }}
           >
-            {/* Origin marker */}
-            <Marker position={origin} label="S" />
-            {/* Destination marker */}
-            <Marker position={destination} label="D" />
+            {/* <Marker position={origin} label="S" /> */}
+            {/* <Marker position={destination} label="D" /> */}
+            {directions && <DirectionsRenderer directions={directions} />}
           </GoogleMap>
         </div>
       </div>
