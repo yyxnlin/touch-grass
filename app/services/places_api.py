@@ -1,4 +1,3 @@
-# app/services/places_api.py
 import requests
 import os
 
@@ -32,8 +31,8 @@ def get_nearby_pois(lat, lng, radius=50, types=None, min_rating=0):
         }
         resp = requests.get(url, params=params)
         data = resp.json()
-        # print(resp.url)   # Full URL called
-        # print(data)       # Full JSON response
+        # print(resp.url)
+        # print(data)   
 
         for result in data.get("results", []):
             rating = result.get("rating", 0)

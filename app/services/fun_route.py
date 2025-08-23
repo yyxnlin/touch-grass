@@ -6,12 +6,11 @@ from math import radians, cos, sin, sqrt, atan2
 
 
 def distance_m(lat1, lng1, lat2, lng2):
-    R = 6371000  # meters
     dlat = radians(lat2 - lat1)
     dlng = radians(lng2 - lng1)
     a = sin(dlat/2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlng/2)**2
     c = 2 * atan2(sqrt(a), sqrt(1-a))
-    return R * c
+    return c
 
 
 def get_fun_waypoints(origin, destination, max_waypoints=4):
@@ -22,7 +21,7 @@ def get_fun_waypoints(origin, destination, max_waypoints=4):
 
     fun_waypoints = []
 
-    # sample every 5 steps along the route
+    # sample every 5 steps along the route (find fun stuff along the way)
     sample_points = path_coords[::5]
 
     for lat, lng in sample_points:

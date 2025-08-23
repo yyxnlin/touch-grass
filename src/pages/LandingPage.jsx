@@ -16,6 +16,7 @@ function LandingPage() {
     const navigate = useNavigate();
     const handleSignupClick = () => navigate('/signup');
     const handleLoginClick = () => navigate('/login'); 
+    const handleMapClick = () => navigate('/map'); 
 
     const backgroundStyles = {
         backgroundImage: `url(${bgImage})`,
@@ -30,7 +31,7 @@ function LandingPage() {
                 <h1 className="text-4xl font-bold text-8xl mt-5">touch grass.</h1>
                 <p className="text-[#969696] mt-5">reconnect with nature (slogan - idk what to put)</p>
                 <button className="bg-[#283618] text-white py-2 px-15 rounded-full mt-5 cursor-pointer"
-                    onClick={handleSignupClick}>
+                    onClick={handleMapClick}>
                     Get Started
                 </button>
             </header>
