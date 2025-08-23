@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Query
 from app.services.maps_api import get_route
+from app.services.fun_route import get_fun_waypoints
 
 router = APIRouter()
 
@@ -21,4 +22,21 @@ def generate_route(
         "destination": {"lat": dest_lat, "lng": dest_lng},
         "mode": mode,
         "data": data
+    }
+
+
+@router.get("/funroute")
+def fun_route(
+    origin_lat: float,
+    origin_lng: float,
+    dest_lat: float,
+    dest_lng: float
+):
+    origin = f"{origin_lat},{origin_lng}"
+    destination = f"{dest_lat},{dest_lng}"
+    waypoints = get_fun_waypoints(origin, destination)
+    return {
+        "origin": {"lat": origin_lat, "lng": origin_lng},
+        "destination": {"lat": dest_lat, "lng": dest_lng},
+        "waypoints": waypoints
     }
